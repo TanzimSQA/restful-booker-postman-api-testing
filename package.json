@@ -1,0 +1,27 @@
+{
+  "name": "restful-booker-postman-api-testing",
+  "version": "1.0.0",
+  "description": "Production-grade REST API test automation suite for Restful Booker using Postman, Newman CLI, dynamic variable chaining, and comprehensive HTML reporting.",
+  "scripts": {
+    "test": "newman run \"Restful Booker API.postman_collection.json\" -e \"RestfulBooker_Env.postman_environment.json\" --delay-request 300",
+    "test:report": "newman run \"Restful Booker API.postman_collection.json\" -e \"RestfulBooker_Env.postman_environment.json\" --delay-request 300 -r cli,htmlextra --reporter-htmlextra-export ./reports/Restful_Booker_Newman_Report.html --reporter-htmlextra-title \"Restful Booker API Test Report\""
+  },
+  "keywords": [
+    "postman",
+    "newman",
+    "api-testing",
+    "rest-api",
+    "sqa",
+    "test-automation",
+    "restful-booker",
+    "htmlextra",
+    "github-actions",
+    "ci-cd"
+  ],
+  "author": "Tanzim Rahman (TanzimSQA)",
+  "license": "MIT",
+  "devDependencies": {
+    "newman": "^6.2.3",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}

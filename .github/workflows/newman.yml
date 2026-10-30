@@ -1,0 +1,44 @@
+name: Newman Restful Booker API Automation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  api-tests:
+    name: Run Restful Booker API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Newman & Reporters
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run Newman Test Suite & Generate Report
+        run: |
+          mkdir -p reports
+          newman run "Restful Booker API.postman_collection.json" \
+            -e "RestfulBooker_Env.postman_environment.json" \
+            --delay-request 300 \
+            -r cli,htmlextra \
+            --reporter-htmlextra-export ./reports/Restful_Booker_Newman_Report.html \
+            --reporter-htmlextra-title "Restful Booker API Automation Report"
+
+      - name: Upload Test Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: restful-booker-newman-report
+          path: ./reports/Restful_Booker_Newman_Report.html
+          retention-days: 30
